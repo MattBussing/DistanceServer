@@ -14,14 +14,13 @@ class Form(Resource):
                         help="This field cannot be left blank!"
     )
 
-    def get(self, name):
+    def get(self):
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template('form.html', name=name),200,headers)
 
 
-    def post(self,name):
+    def post(self):
         data = self.parser.parse_args()
-        item = next(filter(lambda x: x['name'] == data['name'], pi_s), None)
         if item is None:
             item = {'name': data['name'], 'message': data['message']}
             pi_s.append(item)
