@@ -17,7 +17,7 @@ def create_tables():
     db.create_all()
 
 
-api.add_resource(Client, '/pi/<string:_to>')
+api.add_resource(Client, '/<string:_to>')
 api.add_resource(Form, '/')
 
 if __name__ == '__main__':
