@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask import render_template, make_response
-from models.messages import MessageModel
+from models.message import MessageModel
 
 
 class Form(Resource):
@@ -22,10 +22,10 @@ class Form(Resource):
 
     def post(self):
         data = self.parser.parse_args()
-        if MessageModel.search_for_message(data.message, _to):
-            return {'message': "A message like this already exists: {}\n'{}' already exists.".format(_to, data.message)}, 400
+        if MessageModel.search_for_message(**data):
+            return {'message': "A message like this already exists."}, 400
 
-        message = MessageModel(_to, data.message)
+        message = MessageModel(**data)
         try:
             message.save_to_db()
         except:

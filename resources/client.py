@@ -1,13 +1,14 @@
 from flask_restful import Resource, reqparse
-from resources.message import MessageModel
+from models.message import MessageModel
 
 
 class Client(Resource):
     def get(self, _to):
         messages = MessageModel.find_all(_to)
-    if messages:
-        all = { 'messages' : [ m.json() for m in messages ] }
-    else:
-        all = { 'messages' : [ 'none' ]
+        all = []
+        if messages:
+            all = [ m.json() for m in messages ]
+        else:
+            all = [ 'none' ]
 
-    return all , 200
+        return { 'messages' : all } , 200
