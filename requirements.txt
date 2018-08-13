@@ -1,4 +1,5 @@
 Flask
 Flask-RESTful
-Flask_SQLAlchemy
+Flask-SQLAlchemy
 uwsgi
+psycopg2
