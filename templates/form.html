@@ -4,19 +4,73 @@
 <head>
     <meta charset="utf-8">
     <title>Messaging Page</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        form {
+            display: inline-block;
+            width: 400px;
+            background-color: lightblue;
+            padding: 1em;
+            border: 1px solid #999;
+            border-radius: 1em;
+        }
+
+        form div+div {
+            margin-top: 1em;
+        }
+
+        .second label {
+            display: block;
+            text-align: center;
+        }
+
+        input,
+        textarea {
+            font: 1em sans-serif;
+            width: 300px;
+            box-sizing: border-box;
+            border: 1px solid #999;
+            padding: .5em;
+            border-radius: 1em;
+        }
+
+        textarea {
+            vertical-align: middle;
+            height: 8em;
+        }
+
+        .button {
+            align-self: center;
+        }
+
+        button {
+            margin-left: .5em;
+        }
+    </style>
 </head>
 
 <body>
-    <div>Create a message!</div>
     <form action="{{url_for('form')}}" method="post">
         <div>
-            <label for="to">Name:</label>
-            <input id="to" name="_to" type="text" value='Matt or Rachel' />
-
+            <h1>Create a message!</h1>
         </div>
-        <div>
-            <label for="message">Message:</label>
-            <textarea maxlength="240" id="message" name="message" value='240 character limit'></textarea>
+        <div class="first">
+            <label for="to">To:</label>
+            <select name="_to" id="to">
+              <option  value="Matt">Matt</option>
+              <option value="Rachel">Rachel</option>
+            </select>
+        </div>
+        <div class="second">
+            <label for="message">Enter your message here</label>
+            <textarea maxlength="240" id="message" name="message" placeholder="240 character limit" required></textarea>
         </div>
         <div class="button">
             <button type="submit">Send your message</button>

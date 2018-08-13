@@ -1,5 +1,6 @@
 from db import db
 from datetime import datetime
+import pytz
 
 class MessageModel(db.Model):
     __tablename__='messages'
@@ -11,12 +12,13 @@ class MessageModel(db.Model):
     def __init__(self, _to, message):
         self._to = _to
         self.message = message
-        self.dateTime = datetime.now()
+        self.dateTime = datetime.now(tz=pytz.utc).astimezone(pytz.timezone("America/Denver"))
 
     def json(self):
         return {
             'to': self._to,
             'message': self.message,
+            'dateTime': self.dateTime.isoformat()
         }
 
     def save_to_db(self):
