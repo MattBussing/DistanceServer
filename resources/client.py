@@ -3,6 +3,7 @@ from models.message import MessageModel
 
 
 class Client(Resource):
+    parser = reqparse.RequestParser()
     parser.add_argument('message',
                         type=str,
                         required=True,
