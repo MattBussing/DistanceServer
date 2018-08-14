@@ -12,7 +12,7 @@ class MessageModel(db.Model):
     def __init__(self, _to, message):
         self._to = _to
         self.message = message
-        self.dateTime = datetime.now(tz=pytz.utc).astimezone(pytz.timezone("America/Denver"))
+        self.dateTime = datetime.now(tz=pytz.utc)
 
     def json(self):
         return {
