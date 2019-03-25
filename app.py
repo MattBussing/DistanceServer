@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from flask_restful import Api
+
 from resources.client import Client
 from resources.form import Form
 
