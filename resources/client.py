@@ -8,16 +8,17 @@ class Client(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be left blank!"
-    )
+                        )
+
     def get(self, _to):
         messages = MessageModel.find_all(_to)
         all = []
         if messages:
-            all = [ m.json() for m in messages ]
+            all = [m.json() for m in messages]
         else:
-            all = [ 'none' ]
+            all = ['none']
 
-        return { 'messages' : all } , 200
+        return {'messages': all}, 200
 
     def delete(self, _to):
         data = self.parser.parse_args()
@@ -28,6 +29,8 @@ class Client(Resource):
         try:
             message.delete_from_db()
         except:
-            return {"message": "An error occurred while saving the item to the database."}, 500
+            return ({"message":
+                     "An error occurred while saving the item to the database."
+                     },                    500)
 
         return {"message": "Item Deleted"}, 200

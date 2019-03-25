@@ -1,5 +1,5 @@
+from flask import make_response, render_template
 from flask_restful import Resource, reqparse
-from flask import render_template, make_response
 from models.message import MessageModel
 
 
@@ -9,12 +9,12 @@ class Form(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be left blank!"
-    )
+                        )
     parser.add_argument('_to',
                         type=str,
                         required=True,
                         help="This field cannot be left blank!"
-    )
+                        )
 
     def get(self):
         headers = {'Content-Type': 'text/html'}

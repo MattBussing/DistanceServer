@@ -1,24 +1,27 @@
-from db import db
 from datetime import datetime
+
 import pytz
 
+from db import db
+
+
 class MessageModel(db.Model):
-    __tablename__='messages'
+    __tablename__ = 'messages'
 
     _to = db.Column(db.String(40), primary_key=True)
     message = db.Column(db.String(240), primary_key=True)
-    dateTime = db.Column(db.DateTime)
+    date_time = db.Column(db.DateTime)
 
     def __init__(self, _to, message):
         self._to = _to
         self.message = message
-        self.dateTime = datetime.now(tz=pytz.utc)
+        self.date_time = datetime.now(tz=pytz.utc)
 
     def json(self):
         return {
             'to': self._to,
             'message': self.message,
-            'dateTime': self.dateTime.isoformat()
+            'dateTime': self.date_time.isoformat()
         }
 
     def save_to_db(self):

@@ -2,13 +2,14 @@ import os
 
 from flask import Flask
 from flask_restful import Api
-from resources.form import Form
 from resources.client import Client
+from resources.form import Form
 
 app = Flask(__name__)
 
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 api = Api(app)

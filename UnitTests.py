@@ -5,11 +5,11 @@ import requests
 
 class TestAdd(unittest.TestCase):
 
-    postUrl ='http://127.0.0.1:5000/'
-    delUrl ='http://127.0.0.1:5000/Matt'
+    postUrl = 'http://127.0.0.1:5000/'
+    delUrl = 'http://127.0.0.1:5000/Matt'
 
-    delJson = {'message':'value'}
-    postJson = {'message':'value', '_to':'Matt'}
+    delJson = {'message': 'value'}
+    postJson = {'message': 'value', '_to': 'Matt'}
 
     def deleteMessage(self):
         return requests.delete(url=self.delUrl, json=self.delJson)
@@ -43,6 +43,7 @@ class TestAdd(unittest.TestCase):
         """
         self.deleteMessage()
         self.assertEqual(self.deleteMessage().status_code, 404)
+
 
 if __name__ == '__main__':
     unittest.main()
