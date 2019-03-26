@@ -20,7 +20,8 @@ class Client(Resource):
             count = counter.count
         all = []
         if messages:
-            all = [m.json()["message"] for m in messages]
+            # TODO: FIX THIS TO SEND DATE TIME
+            all = [m.json() for m in messages]
 
         return {'messages': all, 'count': count}, 200
 
