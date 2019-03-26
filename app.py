@@ -26,7 +26,7 @@ if __name__ == '__main__':
     db.init_app(app)
 
     if app.config['DEBUG']:
-        # @app.before_first_request
+        @app.before_first_request
         def create_tables():
             db.create_all()
 

@@ -2,15 +2,12 @@
 import requests
 
 
-class General():
-    def __init__(self, url):
-        self.url = url
-        # url = 'http://127.0.0.1:5000/'
-        self.post_url = url
-        self.del_url = url + 'test'
+def wrapper(url):
+    post_url = url
+    del_url = url + 'test'
 
-        self.del_json = {'message': 'value'}
-        self.post_json = {'message': 'value', '_to': 'test'}
+    del_json = {'message': 'value'}
+    post_json = {'message': 'value', '_to': 'test'}
 
     def delete_message():
         return requests.delete(url=del_url, json=del_json)
@@ -46,5 +43,13 @@ class General():
         delete_message()
         assert delete_message().status_code == 404
 
+    test_good_post()
+    test_good_delete()
+    test_bad_post()
+    test_bad_post()
+    test_bad_delete()
 
-General("https://distance-pi.herokuapp.com/")
+
+def test_wrapper():
+    wrapper("https://distance-pi.herokuapp.com/")
+    wrapper('url = http: // 127.0.0.1: 5000 /')

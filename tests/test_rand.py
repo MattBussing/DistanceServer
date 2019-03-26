@@ -1,8 +1,8 @@
 # Author Matt Bussing
 import requests
 
-url = 'http://127.0.0.1:5000'
-# url = "https://distance-pi.herokuapp.com"
+# url = 'http://127.0.0.1:5000'
+url = "https://distance-pi.herokuapp.com"
 
 test = "test"
 client = "/" + test
