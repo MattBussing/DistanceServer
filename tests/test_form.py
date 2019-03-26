@@ -51,5 +51,5 @@ def wrapper(url):
 
 
 def test_wrapper():
-    wrapper("https://distance-pi.herokuapp.com/")
     wrapper('http://127.0.0.1:5000/')
+    wrapper("https://distance-pi.herokuapp.com/")

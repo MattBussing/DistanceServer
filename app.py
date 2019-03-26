@@ -18,7 +18,7 @@ api = Api(app)
 
 api.add_resource(Form, '/')
 api.add_resource(Client, '/<string:_to>')
-api.add_resource(ThinkingOf, '/<string:_to>/thinking-of')
+api.add_resource(ThinkingOf, '/thinking-of/<string:_to>')
 
 
 if __name__ == '__main__':

@@ -20,6 +20,7 @@ class ThinkingOf(Resource):
         counter = Counter.find_counter(_to=_to)
         count = data["increase_by"]
         print("coutner", counter)
+        print("count", count)
 
         if counter is not None:
             print("eyo")
@@ -32,19 +33,9 @@ class ThinkingOf(Resource):
             return {"message": "An error occurred while saving the item (count) to the database."}, 500
         return {"message": "Count increased"}, 200
 
-        # counter = Counter.find_counter(_to)
-        # old_count = counter.count
-        # print(old_count)
-        # # this is so we can increment each one
-        # if old_count:
-        #     counter.delete_from_db()
-        #     self.count = old_count + increase_count_by
-        # else:
-        #     self.count = increase_count_by
-
     def delete(self, _to):
         counter = Counter.find_counter(_to=_to)
-        print(counter)
+        print("delete: counter:", counter)
         if counter is None:
             return {'message': "The counter doesn't exist"}, 404
         try:
