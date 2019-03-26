@@ -44,9 +44,9 @@ class ThinkingOf(Resource):
 
     def delete(self, _to):
         counter = Counter.find_counter(_to=_to)
-        if not counter:
+        print(counter)
+        if counter is None:
             return {'message': "The counter doesn't exist"}, 404
-
         try:
             counter.delete_from_db()
         except:
