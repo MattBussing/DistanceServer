@@ -15,7 +15,7 @@ class Client(Resource):
     def get(self, _to):
         messages = MessageModel.find_all(_to)
         counter = Counter.find_counter(_to)
-        count = None
+        count = 0
         if counter is not None:
             count = counter.count
         all = []
