@@ -1,5 +1,6 @@
 from flask import make_response, render_template
 from flask_restful import Resource, reqparse
+
 from models.message import MessageModel
 
 

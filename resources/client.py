@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
+
 from models.message import MessageModel
+from models.thought_of import ThoughtOfModel
 
 
 class Client(Resource):
@@ -12,13 +14,14 @@ class Client(Resource):
 
     def get(self, _to):
         messages = MessageModel.find_all(_to)
+        # print("messages", messages)
+        thought_of = ThoughtOfModel.find_count(_to).count
+        # print(thought_of)
         all = []
         if messages:
-            all = [m.json() for m in messages]
-        else:
-            all = ['none']
+            all = [m.json()["message"] for m in messages]
 
-        return {'messages': all}, 200
+        return {'messages': all, 'thought_of': thought_of}, 200
 
     def delete(self, _to):
         data = self.parser.parse_args()

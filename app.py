@@ -5,6 +5,7 @@ from flask_restful import Api
 
 from resources.client import Client
 from resources.form import Form
+from resources.thinking_of import ThinkingOf
 
 app = Flask(__name__)
 
@@ -17,6 +18,8 @@ api = Api(app)
 
 api.add_resource(Form, '/')
 api.add_resource(Client, '/<string:_to>')
+api.add_resource(ThinkingOf, '/<string:_to>/thinking-of')
+
 
 if __name__ == '__main__':
     from db import db
