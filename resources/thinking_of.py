@@ -48,7 +48,7 @@ class ThinkingOf(Resource):
             return {'message': "The message does not exist"}, 404
 
         try:
-            counter.save_to_db()
+            counter.delete_from_db()
         except:
             return {"message": "An error occurred while deleting the item (count) in the database."}, 500
         return {"message": "Count Deleted"}, 200

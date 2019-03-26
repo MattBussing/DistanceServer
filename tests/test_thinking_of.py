@@ -56,7 +56,7 @@ def _increaset_count(increment):
 
 
 def test_increase_count():
-    requests.delete(url=thinking_url)
+    assert 200 == requests.delete(url=thinking_url).status_code
     increment = 2
     _increaset_count(increment)
     temp = _get_all_messages_and_count()[1]
@@ -66,3 +66,9 @@ def test_increase_count():
     _increaset_count(increment)
     temp = _get_all_messages_and_count()[1]
     assert old + increment == temp
+
+
+def test_increase_count_pt_2():
+    # this is just to make sure that everything
+    # works by deleting and trying again
+    test_increase_count()
