@@ -1,8 +1,10 @@
 
 import requests
 
-post_url = 'http://127.0.0.1:5000/'
-del_url = 'http://127.0.0.1:5000/test'
+url = "https://distance-pi.herokuapp.com/"
+# url = 'http://127.0.0.1:5000/'
+post_url = url
+del_url = url + 'test'
 
 del_json = {'message': 'value'}
 post_json = {'message': 'value', '_to': 'test'}
