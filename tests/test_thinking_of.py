@@ -17,7 +17,6 @@ main_message_list = ['lol', 'sadfads', 'i hate lol', 'asdfasdfasdf']
 
 messages_deleted = False
 new_count = 15
-increment = 2
 
 
 def clean_up(need_to: bool = False):
@@ -44,8 +43,8 @@ def _get_all_messages_and_count():
     if(req_data.status_code == 200):
         data = req_data.json()
         message_list = data['messages']
-        if data['thought_of'] is not None:
-            count = data['thought_of']
+        if data['count'] is not None:
+            count = data['count']
     else:
         print(req_data.status_code)
     return (message_list, count)
@@ -53,10 +52,11 @@ def _get_all_messages_and_count():
 
 def _increaset_count(increment):
     return requests.post(url=thinking_url, json={
-        "increase_count_by": increment})
+        "increase_by": increment})
 
 
 def test_increase_count():
+    requests.delete(url=thinking_url)
     increment = 2
     _increaset_count(increment)
     temp = _get_all_messages_and_count()[1]

@@ -41,8 +41,8 @@ def _get_all_messages_and_count():
     if(req_data.status_code == 200):
         data = req_data.json()
         message_list = data['messages']
-        if data['thought_of'] is not None:
-            count = data['thought_of']
+        if data['count'] is not None:
+            count = data['count']
     else:
         print(req_data.status_code)
     return (message_list, count)
