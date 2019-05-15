@@ -46,7 +46,7 @@
       <div class="form-group col-md-4">
         <label for="recipient">To?</label>
         <select id="recipient" class="form-control" name="recipient" required>
-          <option selected>Choose...</option>
+          <option disabled="disabled" selected>Choose...</option>
           {% for person in people %}
           <option value="{{person}}">{{person}}</option>
           {% endfor %}
@@ -76,7 +76,7 @@
       <div class="form-group col-md-4">
         <label for="user">User to delete</label>
         <select id="user" class="form-control" name="user" required>
-          <option selected>Choose...</option>
+          <option disabled="disabled" selected>Choose...</option>
           {% for person in people %}
           <option value="{{person}}">{{person}}</option>
           {% endfor %}
@@ -84,6 +84,40 @@
       </div>
       <button type="submit" class="btn btn-primary">Delete User</button>
     </form>
+    <br>
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="well">
+          <h4>User</h4>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="well">
+          <h4>Message</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="well">
+          {% for message in messages %}
+          <p>{{message['recipient']}}</p>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="well">
+          {% for message in messages %}
+          <p>{{message['message']}}</p>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+
+
+
   </div>
 </body>
 

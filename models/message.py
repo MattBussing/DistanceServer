@@ -4,11 +4,16 @@ import pytz
 
 from db import db
 
+# from sqlalchemy import ForeignKey
+
 
 class MessageModel(db.Model):
     __tablename__ = 'messages'
 
-    recipient = db.Column(db.String(40), primary_key=True)
+    recipient = db.Column(db.String(40),
+                          db.ForeignKey('people.person'),
+                          primary_key=True
+                          )
     message = db.Column(db.String(240), primary_key=True)
     date_time = db.Column(db.DateTime)
 
@@ -38,5 +43,9 @@ class MessageModel(db.Model):
                                    recipient=recipient).first()
 
     @classmethod
-    def find_all(cls, recipient):
+    def find_all_by_recipient(cls, recipient):
         return cls.query.filter_by(recipient=recipient).all()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.order_by(cls.recipient).all()

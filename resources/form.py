@@ -28,9 +28,9 @@ class MessageForm(Resource):
         message = MessageModel(**data)
         try:
             message.save_to_db()
-        except:
-            return {"message": "An error occurred while saving the item to \
-the database."}, 500
+        except Exception as e:
+            return {"message": "An error occurred while saving the item.",
+                    "error": "{}".format(e)}, 500
         return redirect(url_for("home"))
 
 
@@ -60,9 +60,9 @@ class UserForm(Resource):
             person = PeopleModel(data["user"])
             try:
                 person.save_to_db()
-            except:
-                return {"message": "An error occurred while saving the item \
-to the database."}, 500
+            except Exception as e:
+                return {"message": "An error occurred while saving the item.",
+                        "error": "{}".format(e)}, 500
 
             return redirect(url_for("home"))
 
@@ -71,9 +71,9 @@ to the database."}, 500
             if person:
                 try:
                     person.delete_from_db()
-                except:
-                    return {"message": "An error occurred while saving the item \
-    to the database."}, 500
+                except Exception as e:
+                    return {"message": "An error occurred while deleting",
+                            "error": "{}".format(e)}, 500
             else:
                 return {'message': "Doesn't exist."}, 400
 
