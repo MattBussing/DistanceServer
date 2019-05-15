@@ -3,11 +3,13 @@ import requests
 
 
 def wrapper(url):
-    post_url = url
-    del_url = url + 'test'
+    post_url = url + "send"
+    user = 'test'
+    add_user = url + "user"
+    del_url = add_user + "/" + user
 
     del_json = {'message': 'value'}
-    post_json = {'message': 'value', '_to': 'test'}
+    post_json = {'message': 'value', 'recipient': 'test'}
 
     def delete_message():
         return requests.delete(url=del_url, json=del_json)
