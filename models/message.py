@@ -3,6 +3,7 @@ from datetime import datetime
 import pytz
 
 from db import db
+from models.people import PeopleModel
 
 # from sqlalchemy import ForeignKey
 
@@ -18,9 +19,12 @@ class MessageModel(db.Model):
     date_time = db.Column(db.DateTime)
 
     def __init__(self, recipient, message):
-        self.recipient = recipient
-        self.message = message
-        self.date_time = datetime.now(tz=pytz.utc)
+        if PeopleModel.find_person(recipient):
+            self.recipient = recipient
+            self.message = message
+            self.date_time = datetime.now(tz=pytz.utc)
+        else:
+            raise Exception("Person does not exist")
 
     def json(self):
         return {
