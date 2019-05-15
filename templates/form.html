@@ -1,64 +1,66 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Messaging Page</title>
   <style>
     h1 {
-            text-align: center;
-        }
+      text-align: center;
+    }
 
-        body {
-            text-align: center;
-        }
+    body {
+      text-align: center;
+    }
 
-        form {
-            display: inline-block;
-            width: 400px;
-            background-color: DodgerBlue;
-            padding: 1em;
-            border: 1px solid #999;
-            border-radius: 1em;
-        }
+    form {
+      display: inline-block;
+      width: 400px;
+      background-color: DodgerBlue;
+      padding: 1em;
+      border: 1px solid #999;
+      border-radius: 1em;
+    }
 
-        form div+div {
-            margin-top: 1em;
-        }
+    form div+div {
+      margin-top: 1em;
+    }
 
-        .second label {
-            display: block;
-            text-align: center;
-        }
+    .second label {
+      display: block;
+      text-align: center;
+    }
 
-        input,
-        textarea {
-            font: 1em sans-serif;
-            width: 300px;
-            box-sizing: border-box;
-            border: 1px solid #999;
-            padding: .5em;
-            border-radius: 1em;
-        }
+    input,
+    textarea {
+      font: 1em sans-serif;
+      width: 300px;
+      box-sizing: border-box;
+      border: 1px solid #999;
+      padding: .5em;
+      border-radius: 1em;
+    }
 
-        textarea {
-            vertical-align: middle;
-            height: 8em;
-        }
+    textarea {
+      vertical-align: middle;
+      height: 8em;
+    }
 
-        .button {
-            align-self: center;
-        }
+    .button {
+      align-self: center;
+    }
 
-        button {
-            margin-left: .5em;
-        }
-    </style>
+    button {
+      margin-left: .5em;
+    }
+  </style>
 </head>
 
 <body>
+  {% block heading %}
+  {{ super() }}
+  {% endblock %}
   <form action="{{url_for('form')}}" method="post">
     <div>
       <h1>Create a message!</h1>
@@ -66,8 +68,12 @@
     <div class="first">
       <label for="to">To:</label>
       <select name="_to" id="to">
-        <option value="Matt">Matt</option>
-        <option value="Rachel">Rachel</option>
+        <!-- <option value="Matt">Matt</option>
+        <option value="Rachel">Rachel</option> -->
+        {% for person in people %}
+        <option value="person">{{person}}</option>
+        {% endfor %}
+
       </select>
     </div>
     <div class="second">

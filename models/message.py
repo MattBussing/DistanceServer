@@ -39,3 +39,11 @@ class MessageModel(db.Model):
     @classmethod
     def find_all(cls, _to):
         return cls.query.filter_by(_to=_to).all()
+
+    # @classmethod
+    # def find_all_people(cls):
+    #     # objects = cls.query.filter_by().all()  # first item in table
+    #     # return [object._to for object in objects]
+    #     # first item in table
+    #     return [person._to for person in cls.query.add_column(cls._to)
+    #             .distinct()]
