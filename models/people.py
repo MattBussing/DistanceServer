@@ -24,3 +24,7 @@ class PeopleModel(db.Model):
     @classmethod
     def find_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def find_person(cls, user):
+        return cls.query.filter_by(person=user).first()

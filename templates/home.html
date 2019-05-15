@@ -3,12 +3,13 @@
 <!-- https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_temp_analytics&stacked=h -->
 
 <head>
-  <title>Bootstrap Example</title>
+  <title>{{title}}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <style>
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     .row.content {
@@ -31,111 +32,59 @@
 </head>
 
 <body>
+  <br>
+  <div class="col-md-9 justify-content-center align-items-center container">
+    <!-- Message form  -->
+    <form action="{{url_for('messageform')}}" method="post">
+      <h3>Create a message!</h3>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <input maxlength="32" type="text" class="form-control" id="message" name="message" placeholder="I love you!" required>
+        <!-- <textarea maxlength="240" class="form-control" id="message" name="message" placeholder="I love you!" required></textarea> -->
+      </div>
 
-  <nav class="navbar navbar-inverse visible-xs">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Logo</a>
+      <div class="form-group col-md-4">
+        <label for="recipient">To?</label>
+        <select id="recipient" class="form-control" name="recipient" required>
+          <option selected>Choose...</option>
+          {% for person in people %}
+          <option value="{{person}}">{{person}}</option>
+          {% endfor %}
+        </select>
       </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Dashboard</a></li>
-          <li><a href="#">Age</a></li>
-          <li><a href="#">Gender</a></li>
-          <li><a href="#">Geo</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
 
-  <div class="container-fluid">
-    <div class="row content">
-      <div class="col-sm-3 sidenav hidden-xs">
-        <h2>Logo</h2>
-        <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="#section1">Dashboard</a></li>
-          <li><a href="#section2">Age</a></li>
-          <li><a href="#section3">Gender</a></li>
-          <li><a href="#section3">Geo</a></li>
-        </ul><br>
-      </div>
-      <br>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+    <br>
 
-      <div class="col-sm-9">
-        <div class="well">
-          <h4>Dashboard</h4>
-          <p>Some text..</p>
-        </div>
-        <div class="row">
-          <div class="col-sm-3">
-            <div class="well">
-              <h4>Users</h4>
-              <p>1 Million</p>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="well">
-              <h4>Pages</h4>
-              <p>100 Million</p>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="well">
-              <h4>Sessions</h4>
-              <p>10 Million</p>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="well">
-              <h4>Bounce</h4>
-              <p>30%</p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
-              <p>Text</p>
-              <p>Text</p>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
-              <p>Text</p>
-              <p>Text</p>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
-              <p>Text</p>
-              <p>Text</p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-8">
-            <div class="well">
-              <p>Text</p>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
-            </div>
-          </div>
-        </div>
+    <!-- add a user -->
+    <form action="{{url_for('userform')}}" method="post">
+      <input type="hidden" name="form_type" value="add">
+      <h3>Add a user</h3>
+      <div class="form-group">
+        <label for="user">User</label>
+        <input maxlength="32" type="text" class="form-control" name="user" placeholder="Matt" required>
       </div>
-    </div>
+      <button type="submit" class="btn btn-primary">Add User</button>
+    </form>
+    <br>
+
+    <!-- del user-->
+    <form action="{{url_for('userform')}}" method="post">
+      <input type="hidden" name="form_type" value="del">
+      <h3>Delete a user</h3>
+      <div class="form-group col-md-4">
+        <label for="user">User to delete</label>
+        <select id="user" class="form-control" name="user" required>
+          <option selected>Choose...</option>
+          {% for person in people %}
+          <option value="{{person}}">{{person}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Delete User</button>
+    </form>
   </div>
-
 </body>
 
 </html>
