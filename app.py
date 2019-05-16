@@ -6,6 +6,7 @@ from flask_restful import Api
 from resources.client import Client
 from resources.form import MessageForm, UserForm
 from resources.home import Home
+from resources.matrix import MatrixAPI
 from resources.thinking_of import ThinkingOf
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
@@ -22,6 +23,7 @@ api.add_resource(MessageForm, '/send')
 api.add_resource(UserForm, '/user')
 api.add_resource(Client, '/data/<string:_to>')
 api.add_resource(ThinkingOf, '/thinking_of/<string:_to>')
+api.add_resource(MatrixAPI, '/matrix')
 
 
 if __name__ == '__main__':
