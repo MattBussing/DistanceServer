@@ -38,13 +38,15 @@
 }
 
 .farbtastic .wheel {
-  background: url('../images/wheel.png') no-repeat;
+  /* background: url("{{ url_for('static',filename='images/wheel.png')}}") no-repeat; */
+  background: url("{{ url_for('static', filename='wheel.png')}}") no-repeat;
   width: 195px;
   height: 195px;
 }
 
 .farbtastic .overlay {
-  background: url('../images/mask.png') no-repeat;
+  /* background: url(mask.png) no-repeat; */
+  background: url({{ url_for('static', filename='mask.png')}}) no-repeat;
 
 }
 
@@ -53,6 +55,7 @@
   height: 17px;
   margin: -8px 0 0 -8px;
   overflow: hidden;
-  background: url('../images/marker.png') no-repeat;
+  /* background: url(marker.png) no-repeat; */
+  background: url("{{ url_for('static', filename='marker.png') }}") no-repeat;
 
 }

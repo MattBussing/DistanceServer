@@ -15,7 +15,8 @@ class Home(Resource):
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template('home.html',
                                              people=people,
-                                             messages=messages
+                                             messages=messages,
+                                             title="DistancePi"
                                              ),
                              200,
                              headers

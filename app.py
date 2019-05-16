@@ -8,7 +8,7 @@ from resources.form import MessageForm, UserForm
 from resources.home import Home
 from resources.thinking_of import ThinkingOf
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
