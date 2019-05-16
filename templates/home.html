@@ -10,23 +10,31 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- <script type="text/javascript" src="farbtastic.js"></script> -->
+  <script type="text/javascript" src="{{ url_for('static',filename='farbtastic.js')}}"></script>
+
+  <!-- <link rel="stylesheet" href="farbtastic.css" type="text/css" /> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/farbtastic.css') }}" type="text/css" />
+
   <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {
-      height: 550px
-    }
-
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-
     /* On small screens, set height to 'auto' for the grid */
     @media screen and (max-width: 767px) {
       .row.content {
         height: auto;
       }
+    }
+
+    .grid {
+      margin: 1em auto;
+      border-collapse: collapse
+    }
+
+    .grid td {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border: 1px solid #ccc;
+      text-align: center;
     }
   </style>
 </head>
@@ -115,10 +123,52 @@
       </div>
     </div>
 
+    <br>
+    <!-- drawing -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
 
+          <table id="display" class="grid"></table>
+        </div>
+        <div class="col-md-6">
+          <form><input type="text" id="color" name="color" value="#123456" /></form>
+          <br>
+          <div id="colorpicker"></div>
+        </div>
 
+      </div>
+    </div>
 
   </div>
+
+  <script type="text/javascript">
+    function makeGrid() {
+      let rows = 8;
+      let cols = 8;
+      let i = 0;
+      for (let row = 0; row < rows; row++) {
+        let tr = $("#display").append(document.createElement('tr'));
+        for (let col = 0; col < cols; col++) {
+          let cell = document.createElement('td');
+          cell.id = "cell" + i++;
+          cell.style.background = "#ffffff";
+
+          cell.addEventListener('click', function() {
+            let color = $("#color").val();
+            console.log("you clicked " + cell.id + " " + color);
+            cell.style.background = color;
+          });
+          tr.append(cell);
+        }
+      }
+    }
+
+    $(document).ready(function() {
+      $('#colorpicker').farbtastic('#color');
+      makeGrid()
+    });
+  </script>
 </body>
 
 </html>
