@@ -1,4 +1,3 @@
-from flask import redirect, request, url_for
 from flask_restful import Resource, reqparse
 
 # from models.message import MessageModel
