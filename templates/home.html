@@ -8,10 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="{{ url_for('static',filename='farbtastic.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static',filename='js/farbtastic.js')}}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/farbtastic.css') }}" type="text/css" />
   <style>
     /* On small screens, set height to 'auto' for the grid */
@@ -69,7 +69,7 @@
         <div class="row">
           <div class="col-md-4">
             <label for="recipient">To?</label>
-            <select id="recipient" class="form-control" name="recipient" required>
+            <select id="drawing_recipient" class="form-control" name="recipient" required>
               <option disabled="disabled" selected>Choose...</option>
               {% for person in people %}
               <option value="{{person}}">{{person}}</option>
@@ -89,7 +89,7 @@
         </div>
         <div class="row">
           <!-- <input type="hidden" name="form_type" value="add"> -->
-          <button type="submit" id="submit_button" class="btn btn-primary">Send Drawing</button>
+          <button type="submit" id="matrix_submit_button" class="btn btn-primary">Send Drawing</button>
         </div>
       </form>
     </div>
@@ -198,24 +198,31 @@
         }
         matrix.push(my_row);
       }
-      console.log(matrix);
-      // return matrix;
-      var matrixData = JSON.stringify(matrix);
-
+      // console.log(matrix);
+      let my_data = JSON.stringify({
+        'matrix': matrix,
+        'recipient': $('#drawing_recipient').val()
+      });
+      // console.log(my_data);
       $.ajax({
-        type: "POST",
         url: "{{url_for('matrixapi')}}",
-        data: matrixData,
-        success: function() {},
+        data: my_data,
+        type: "POST",
+        success: function(result) {
+          console.log(result)
+        },
         dataType: "json",
-        contentType: "application/json"
+        contentType: 'application/json; charset=UTF-8',
+        error: function(e) {
+          console.log(e);
+        }
       });
     }
 
     $(document).ready(function() {
       $('#colorpicker').farbtastic('#color');
       makeGrid();
-      $('#submit_button').click(sendGrid);
+      $('#matrix_submit_button').click(sendGrid);
     });
   </script>
 </body>

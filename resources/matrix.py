@@ -1,4 +1,4 @@
-from flask import redirect, url_for
+from flask import redirect, request, url_for
 from flask_restful import Resource, reqparse
 
 # from models.message import MessageModel
@@ -7,19 +7,24 @@ from flask_restful import Resource, reqparse
 
 class MatrixAPI(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('data',
+    parser.add_argument('matrix',
+                        location='json',
+                        # type='unicode',
                         type=str,
                         required=True,
                         help="Message field cannot be left blank!"
                         )
-    # parser.add_argument('recipient',
-    #                     type=str,
-    #                     required=True,
-    #                     help="Recipient field cannot be left blank!"
-    #                     )
+    parser.add_argument('recipient',
+                        location='json',
+                        type=str,
+                        # type='unicode',
+                        required=True,
+                        help="Recipient field cannot be left blank!"
+                        )
 
     def post(self):
         data = self.parser.parse_args()
+        print(data)
         # since put it will update regardless
         # TODO delete
         # if MessageModel.search_for_message(**data):
@@ -32,5 +37,5 @@ class MatrixAPI(Resource):
         #     return {"message": "An error occurred while saving the item.",
         #             "error": "{}".format(e)}, 500
 
-        print(data['data'])
-        return redirect(url_for("home"))
+        # return redirect(url_for("home"))
+        return {"message": "success"}
