@@ -65,6 +65,38 @@
     </form>
     <br>
 
+    <!-- drawing -->
+    <h3>Create a Drawing!</h3>
+    <div class="container">
+      <form>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="recipient">To?</label>
+            <select id="recipient" class="form-control" name="recipient" required>
+              <option disabled="disabled" selected>Choose...</option>
+              {% for person in people %}
+              <option value="{{person}}">{{person}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <table id="display" class="grid"></table>
+          </div>
+          <div class="col-md-6">
+            <form><input type="text" id="color" name="color" value="#123456" /></form>
+            <br>
+            <div id="colorpicker"></div>
+          </div>
+        </div>
+        <div class="row">
+          <input type="hidden" name="form_type" value="add">
+          <button type="submit" class="btn btn-primary">Send Drawing</button>
+        </div>
+      </form>
+    </div>
+    <br>
     <!-- add a user -->
     <form action="{{url_for('userform')}}" method="post">
       <input type="hidden" name="form_type" value="add">
@@ -93,52 +125,42 @@
       <button type="submit" class="btn btn-primary">Delete User</button>
     </form>
     <br>
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="well">
-          <h4>User</h4>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="well">
-          <h4>Message</h4>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="well">
-          {% for message in messages %}
-          <p>{{message['recipient']}}</p>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="well">
-          {% for message in messages %}
-          <p>{{message['message']}}</p>
-          {% endfor %}
 
-        </div>
-      </div>
-    </div>
-
-    <br>
-    <!-- drawing -->
+    <!--  list messages-->
+    <h3>Messages</h3>
     <div class="container">
       <div class="row">
-        <div class="col-md-6">
-
-          <table id="display" class="grid"></table>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>User</h4>
+          </div>
         </div>
-        <div class="col-md-6">
-          <form><input type="text" id="color" name="color" value="#123456" /></form>
-          <br>
-          <div id="colorpicker"></div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Message</h4>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="well">
+            {% for message in messages %}
+            <p>{{message['recipient']}}</p>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            {% for message in messages %}
+            <p>{{message['message']}}</p>
+            {% endfor %}
 
+          </div>
+        </div>
       </div>
     </div>
+
+
 
   </div>
 
