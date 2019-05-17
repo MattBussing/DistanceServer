@@ -40,4 +40,4 @@ class MatrixAPI(Resource):
             return {"message": "An error occurred while saving the item.",
                     "error": "{}".format(e)}, 500
 
-        return {"message": "success"}
+        return {"message": "success"}, 201

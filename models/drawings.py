@@ -47,23 +47,22 @@ class DrawingModel(db.Model):
                        )
 
     def __init__(self, drawing, recipient, sender):
-        hex_dig = self.hash_drawing(drawing)
-
         # check for people
         if not PeopleModel.find_person(recipient):
             raise Exception("Recipient does not exist")
         if not PeopleModel.find_person(sender):
             raise Exception("Sender does not exist")
 
+        new_id = self.hash_drawing(drawing)
         # make sure no duplicate
-        if not DrawingModel.find_by_id(hex_dig):
-            self.id = hex_dig
+        if not DrawingModel.find_by_id(new_id):
+            self.id = new_id
             self.drawing = drawing
             self.date_time = datetime.now(tz=pytz.utc)
             self.recipient = recipient
             self.sender = sender
         else:
-            raise Exception("ID already exists {}".format(hex_dig))
+            raise Exception("ID already exists {}".format(new_id))
 
     def json(self):
         return {
@@ -84,10 +83,11 @@ class DrawingModel(db.Model):
 
     @classmethod
     def hash_drawing(cls, drawing):
-        hash_object = hashlib.sha256(drawing.encode('utf-8'))
-        hex_dig = hash_object.hexdigest()
-        print(hex_dig)
-        return hex_dig
+        short_hash = hashlib.sha1(drawing.encode('utf-8')).hexdigest()[:10]
+        # print(short_hash)
+        id = int(short_hash, 16)
+        # print(id)
+        return id
 
     @classmethod
     def find_by_id(cls, id):
