@@ -76,6 +76,15 @@
               {% endfor %}
             </select>
           </div>
+          <div class="col-md-4">
+            <label for="recipient">From?</label>
+            <select id="drawing_sender" class="form-control" name="recipient" required>
+              <option disabled="disabled" selected>Choose...</option>
+              {% for person in people %}
+              <option value="{{person}}">{{person}}</option>
+              {% endfor %}
+            </select>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -200,8 +209,9 @@
       }
       // console.log(matrix);
       let my_data = JSON.stringify({
-        'matrix': matrix,
-        'recipient': $('#drawing_recipient').val()
+        'drawing': matrix,
+        'recipient': $('#drawing_recipient').val(),
+        'sender': $('#drawing_recipient').val()
       });
       // console.log(my_data);
       $.ajax({

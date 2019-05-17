@@ -47,10 +47,7 @@ class DrawingModel(db.Model):
                        )
 
     def __init__(self, drawing, recipient, sender):
-        # print
-        hash_object = hashlib.sha256(drawing)
-        hex_dig = hash_object.hexdigest()
-        print(hex_dig)
+        hex_dig = self.hash_drawing(drawing)
 
         # check for people
         if not PeopleModel.find_person(recipient):
@@ -86,5 +83,17 @@ class DrawingModel(db.Model):
         db.session.commit()
 
     @classmethod
+    def hash_drawing(cls, drawing):
+        hash_object = hashlib.sha256(drawing.encode('utf-8'))
+        hex_dig = hash_object.hexdigest()
+        print(hex_dig)
+        return hex_dig
+
+    @classmethod
     def find_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
+
+    @classmethod
+    def find_by_drawing(cls, drawing):
+        # return cls.query.filter_by(id=id).first()
+        cls.find_by_id(cls.hash_drawing(drawing))

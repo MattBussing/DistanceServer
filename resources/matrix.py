@@ -1,14 +1,14 @@
 from flask_restful import Resource, reqparse
 
 # from models.message import MessageModel
-# from models.people import PeopleModel
+# from models.people import PeopleModel\
+from models.drawings import DrawingModel
 
 
 class MatrixAPI(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('matrix',
+    parser.add_argument('drawing',
                         location='json',
-                        # type='unicode',
                         type=str,
                         required=True,
                         help="Message field cannot be left blank!"
@@ -16,25 +16,28 @@ class MatrixAPI(Resource):
     parser.add_argument('recipient',
                         location='json',
                         type=str,
-                        # type='unicode',
+                        required=True,
+                        help="Recipient field cannot be left blank!"
+                        )
+    parser.add_argument('sender',
+                        location='json',
+                        type=str,
                         required=True,
                         help="Recipient field cannot be left blank!"
                         )
 
     def post(self):
         data = self.parser.parse_args()
-        print(data)
-        # since put it will update regardless
-        # TODO delete
-        # if MessageModel.search_for_message(**data):
-        #     return {'message': "A message like this already exists."}, 400
-        #
-        # message = MessageModel(**data)
-        # try:
-        #     message.save_to_db()
-        # except Exception as e:
-        #     return {"message": "An error occurred while saving the item.",
-        #             "error": "{}".format(e)}, 500
+        # print(data)
 
-        # return redirect(url_for("home"))
+        if DrawingModel.find_by_drawing(data['drawing']):
+            return {'message': "A drawing like this already exists."}, 400
+
+        drawing = DrawingModel(**data)
+        try:
+            drawing.save_to_db()
+        except Exception as e:
+            return {"message": "An error occurred while saving the item.",
+                    "error": "{}".format(e)}, 500
+
         return {"message": "success"}
