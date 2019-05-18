@@ -1,4 +1,5 @@
 import hashlib
+import json
 from datetime import datetime
 
 import pytz
@@ -39,6 +40,7 @@ class DrawingModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     drawing = db.Column(db.String(1500))
     date_time = db.Column(db.DateTime)
+    hash_value = db.Column(db.String(50))
     recipient = db.Column(db.String(40),
                           db.ForeignKey('people.person')
                           )
@@ -53,16 +55,17 @@ class DrawingModel(db.Model):
         if not PeopleModel.find_person(sender):
             raise Exception("Sender does not exist")
 
-        new_id = self.hash_drawing(drawing)
+        hashed_string = self.hash_drawing(drawing)
         # make sure no duplicate
-        if not DrawingModel.find_by_id(new_id):
-            self.id = new_id
-            self.drawing = drawing
-            self.date_time = datetime.now(tz=pytz.utc)
-            self.recipient = recipient
-            self.sender = sender
-        else:
-            raise Exception("ID already exists {}".format(new_id))
+        # if not DrawingModel.find_by_hash(hashed_string):
+        self.drawing = drawing
+        self.date_time = datetime.now(tz=pytz.utc)
+        self.hash_value = hashed_string
+        self.recipient = recipient
+        self.sender = sender
+        # else:
+        #     raise Exception(
+        #         "Duplicate already exists {}".format(hashed_string))
 
     def json(self):
         return {
@@ -81,19 +84,26 @@ class DrawingModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    def get_actual_vals(self):
+        return json.loads(self.drawing)
+
     @classmethod
     def hash_drawing(cls, drawing):
-        short_hash = hashlib.sha1(drawing.encode('utf-8')).hexdigest()[:10]
-        # print(short_hash)
-        id = int(short_hash, 16)
-        # print(id)
-        return id
+        hash = str(hashlib.sha1(drawing.encode('utf-8')).hexdigest())
+        # print(hash)
+        return hash
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
+    def find_by_hash(cls, hash):
+        return cls.query.filter_by(hash_value=hash).first()
 
     @classmethod
-    def find_by_drawing(cls, drawing):
-        # return cls.query.filter_by(id=id).first()
-        cls.find_by_id(cls.hash_drawing(drawing))
+    def find_by_dsr(cls, drawing, sender, recipient):
+        return cls.query.filter_by(hash_value=cls.hash_drawing(drawing),
+                                   sender=sender,
+                                   recipient=recipient).first()
+        # return cls.find_by_hash(cls.hash_drawing(drawing, sender, recipient))
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()

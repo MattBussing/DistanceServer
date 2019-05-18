@@ -11,7 +11,90 @@
   <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="{{ url_for('static',filename='js/farbtastic.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/farbtastic.js')}}"></script>
+  <script type="text/javascript">
+    function makeGrid(matrix_id) {
+      let rows = 8;
+      let cols = 8;
+      let i = 0;
+      for (let row = 0; row < rows; row++) {
+        let tr = $("#" + matrix_id).append(document.createElement('tr'));
+        for (let col = 0; col < cols; col++) {
+          let cell = document.createElement('td');
+          cell.id = "cell" + i++;
+          cell.style.background = "#ffffff";
+
+          cell.addEventListener('click', function() {
+            let color = $("#color").val();
+            console.log("you clicked " + cell.id + " " + color);
+            cell.style.background = color;
+          });
+          tr.append(cell);
+        }
+      }
+    }
+
+    function makeNewGrid(matrix_id, matrix) {
+      // console.log(matrix);
+      let rows = 8;
+      let cols = 8;
+      let i = 0;
+      for (let row = 0; row < rows; row++) {
+        let tr = $("#" + matrix_id).append(document.createElement('tr'));
+        for (let col = 0; col < cols; col++) {
+          let cell = document.createElement('td');
+          cell.id = "cell" + i++;
+          console.log(matrix[i])
+          cell.style.background = matrix[i];
+
+          cell.addEventListener('click', function() {
+            let color = $("#color").val();
+            console.log("you clicked " + cell.id + " " + color);
+            cell.style.background = color;
+          });
+          tr.append(cell);
+        }
+      }
+    }
+
+
+    function sendGrid() {
+      let rows = 8;
+      let cols = 8;
+      let i = 0;
+      let matrix = [];
+      for (let row = 0; row < rows; row++) {
+        let my_row = [];
+        for (let col = 0; col < cols; col++) {
+          let cell = "#cell" + i;
+          // console.log(cell);
+          my_row.push($(cell).css('background-color'));
+          i++;
+        }
+        matrix.push(my_row);
+      }
+      // console.log(matrix);
+      let my_data = JSON.stringify({
+        'drawing': matrix,
+        'recipient': $('#drawing_recipient').val(),
+        'sender': $('#drawing_sender').val()
+      });
+      // console.log(my_data);
+      $.ajax({
+        url: "{{url_for('matrixapi')}}",
+        data: my_data,
+        type: "POST",
+        success: function(result) {
+          console.log(result)
+        },
+        dataType: "json",
+        contentType: 'application/json; charset=UTF-8',
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    }
+  </script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/farbtastic.css') }}" type="text/css" />
   <style>
     /* On small screens, set height to 'auto' for the grid */
@@ -166,72 +249,27 @@
       </div>
     </div>
 
-
+    <br>
+    <div>
+      <h3>Drawings</h3>
+      {% for matrix in matrices %}
+      {% set my_str = loop.index|string + "table" %}
+      <table id="{{my_str}}" class="grid"></table>
+      <script type="text/javascript">
+        $(document).ready(function() {
+          makeNewGrid("{{my_str}}", JSON.parse({{matrix.drawing | tojson}}));
+        });
+      </script>
+      <br>
+      {% endfor %}
+    </div>
 
   </div>
 
   <script type="text/javascript">
-    function makeGrid() {
-      let rows = 8;
-      let cols = 8;
-      let i = 0;
-      for (let row = 0; row < rows; row++) {
-        let tr = $("#display").append(document.createElement('tr'));
-        for (let col = 0; col < cols; col++) {
-          let cell = document.createElement('td');
-          cell.id = "cell" + i++;
-          cell.style.background = "#ffffff";
-
-          cell.addEventListener('click', function() {
-            let color = $("#color").val();
-            console.log("you clicked " + cell.id + " " + color);
-            cell.style.background = color;
-          });
-          tr.append(cell);
-        }
-      }
-    }
-
-    function sendGrid() {
-      let rows = 8;
-      let cols = 8;
-      let i = 0;
-      let matrix = [];
-      for (let row = 0; row < rows; row++) {
-        let my_row = [];
-        for (let col = 0; col < cols; col++) {
-          let cell = "#cell" + i;
-          // console.log(cell);
-          my_row.push($(cell).css('background-color'));
-          i++;
-        }
-        matrix.push(my_row);
-      }
-      // console.log(matrix);
-      let my_data = JSON.stringify({
-        'drawing': matrix,
-        'recipient': $('#drawing_recipient').val(),
-        'sender': $('#drawing_recipient').val()
-      });
-      // console.log(my_data);
-      $.ajax({
-        url: "{{url_for('matrixapi')}}",
-        data: my_data,
-        type: "POST",
-        success: function(result) {
-          console.log(result)
-        },
-        dataType: "json",
-        contentType: 'application/json; charset=UTF-8',
-        error: function(e) {
-          console.log(e);
-        }
-      });
-    }
-
     $(document).ready(function() {
       $('#colorpicker').farbtastic('#color');
-      makeGrid();
+      makeGrid("display");
       $('#matrix_submit_button').click(sendGrid);
     });
   </script>
