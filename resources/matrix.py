@@ -25,13 +25,22 @@ class MatrixAPI(Resource):
                         required=True,
                         help="Recipient field cannot be left blank!"
                         )
-    todo fix so that it either stores differently or can be pulled off differently
-    Ultimately we need to use the matrix so however we get the data down will work
+    # todo fix so that it either stores differently or can be pulled off
+    # differently
+    # Ultimately we need to use the matrix so however we get the data down
+    # will work
 
     def post(self):
         data = self.parser.parse_args()
         print(data)
+        data['drawing'] = str(data['drawing'])
         print(data['drawing'])
+
+        if data['recipient'] is None\
+                or data['recipient'] is None \
+                or data['sender']is None:
+            return {'message': "One of the items is missing: {}".format(
+                data)}, 400
 
         if DrawingModel.find_by_dsr(**data):
             print(data)

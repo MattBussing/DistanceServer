@@ -57,28 +57,37 @@
       }
     }
 
-
-    function sendGrid() {
+    function compile_matrix() {
       let rows = 8;
       let cols = 8;
       let i = 0;
       let matrix = [];
       for (let row = 0; row < rows; row++) {
-        let my_row = [];
         for (let col = 0; col < cols; col++) {
           let cell = "#cell" + i;
-          // console.log(cell);
-          my_row.push($(cell).css('background-color'));
+          let color = $(cell).css('background-color').match(/\d+/g);
+          color = color.map(function(num){return Number(num)});
+          // console.log(color);
+          matrix.push(color);
           i++;
         }
-        matrix.push(my_row);
       }
+      console.log(matrix);
+      return matrix;
+    }
+    function makeAlert(message){
+      alert(message);
+    }
+
+    function sendGrid() {
       // console.log(matrix);
       let my_data = JSON.stringify({
-        'drawing': matrix,
+        'drawing': compile_matrix(),
         'recipient': $('#drawing_recipient').val(),
         'sender': $('#drawing_sender').val()
       });
+      if my_data['sender'] == none;
+      // TODO: Finish making it check to see if it has values
       // console.log(my_data);
       $.ajax({
         url: "{{url_for('matrixapi')}}",
@@ -257,7 +266,7 @@
       <table id="{{my_str}}" class="grid"></table>
       <script type="text/javascript">
         $(document).ready(function() {
-          makeNewGrid("{{my_str}}", JSON.parse({{matrix.drawing | tojson}}));
+          makeNewGrid("{{my_str}}", JSON.parse({{ matrix.drawing | tojson }}));
         });
       </script>
       <br>
