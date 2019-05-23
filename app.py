@@ -18,12 +18,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 api = Api(app)
 
+# website
 api.add_resource(Home, '/')
-api.add_resource(MessageForm, '/send')
-api.add_resource(UserForm, '/user')
-api.add_resource(Client, '/data/<string:_to>')
-api.add_resource(ThinkingOf, '/thinking_of/<string:_to>')
-api.add_resource(MatrixAPI, '/matrix')
+# api
+api.add_resource(MessageForm, '/api/message')
+api.add_resource(UserForm, '/api/user')
+api.add_resource(MatrixAPI, '/api/matrix')
+api.add_resource(Client, '/api/data/<string:_to>')
+api.add_resource(ThinkingOf, '/api/thinking_of/<string:_to>')
 
 
 if __name__ == '__main__':
