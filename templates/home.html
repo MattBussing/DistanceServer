@@ -34,8 +34,13 @@
       }
     }
 
+    function arrayToRGB(array){
+      // rgb(155, 102, 102)
+      return "rgb(" + array[0] + ", " + array[1] + ", " + array[2] + ")";
+    }
+
     function makeNewGrid(matrix_id, matrix) {
-      // console.log(matrix);
+      console.log(matrix);
       let rows = 8;
       let cols = 8;
       let i = 0;
@@ -43,16 +48,10 @@
         let tr = $("#" + matrix_id).append(document.createElement('tr'));
         for (let col = 0; col < cols; col++) {
           let cell = document.createElement('td');
-          cell.id = "cell" + i++;
-          console.log(matrix[i])
-          cell.style.background = matrix[i];
-
-          cell.addEventListener('click', function() {
-            let color = $("#color").val();
-            console.log("you clicked " + cell.id + " " + color);
-            cell.style.background = color;
-          });
+          // cell.id = "cell" + i;
+          cell.style.background = arrayToRGB(matrix[i]);
           tr.append(cell);
+          i++;
         }
       }
     }
@@ -72,7 +71,7 @@
           i++;
         }
       }
-      console.log(matrix);
+      // console.log(matrix);
       return matrix;
     }
     function makeAlert(message){
@@ -80,26 +79,45 @@
     }
 
     function sendGrid() {
-      // console.log(matrix);
-      let my_data = JSON.stringify({
+
+      // TODO: Finish making it check to see if it has valuest
+      // console.log(data);
+
+      let recip = $('#drawing_recipient').val();
+      let send = $('#drawing_sender').val();
+      if(recip == "" || recip == null){
+        // if(recip.length == 0){
+        makeAlert("recipient empty " + recip);
+        return;
+      }else if (send == '' || send == null) {
+        makeAlert("sender empty ");
+        return;
+      }else{
+        // makeAlert("data fine " + send + " " + recip);
+      }
+      // console.log(recip.length);
+
+      let data = JSON.stringify({
         'drawing': compile_matrix(),
-        'recipient': $('#drawing_recipient').val(),
-        'sender': $('#drawing_sender').val()
+        'recipient': recip,
+        'sender': send
       });
-      if my_data['sender'] == none;
-      // TODO: Finish making it check to see if it has values
-      // console.log(my_data);
+      // console.log(data);
+      // data['sender'] == null ||
       $.ajax({
         url: "{{url_for('matrixapi')}}",
-        data: my_data,
+        data: data,
         type: "POST",
         success: function(result) {
           console.log(result)
+          // TODO figure out how to unselect button.
+          location.reload();
         },
         dataType: "json",
         contentType: 'application/json; charset=UTF-8',
         error: function(e) {
-          console.log(e);
+          // console.log(e);
+          makeAlert(e.responseText);
         }
       });
     }
@@ -162,7 +180,7 @@
           <div class="col-md-4">
             <label for="recipient">To?</label>
             <select id="drawing_recipient" class="form-control" name="recipient" required>
-              <option disabled="disabled" selected>Choose...</option>
+              <option disabled="disabled" value="" selected>Choose...</option>
               {% for person in people %}
               <option value="{{person}}">{{person}}</option>
               {% endfor %}
@@ -171,7 +189,7 @@
           <div class="col-md-4">
             <label for="recipient">From?</label>
             <select id="drawing_sender" class="form-control" name="recipient" required>
-              <option disabled="disabled" selected>Choose...</option>
+              <option disabled="disabled" value="" selected>Choose...</option>
               {% for person in people %}
               <option value="{{person}}">{{person}}</option>
               {% endfor %}
@@ -266,7 +284,8 @@
       <table id="{{my_str}}" class="grid"></table>
       <script type="text/javascript">
         $(document).ready(function() {
-          makeNewGrid("{{my_str}}", JSON.parse({{ matrix.drawing | tojson }}));
+          // makeNewGrid("{{my_str}}", JSON.parse({{ matrix.drawing | tojson }}));
+          makeNewGrid("{{my_str}}", {{ matrix.drawing }});
         });
       </script>
       <br>
